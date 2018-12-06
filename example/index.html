@@ -1,0 +1,35 @@
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>TSTest</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="../src/tsclient.css" rel="stylesheet">
+
+    <script type="application/javascript" src="../src/tsclient.js"></script>
+    <script type="text/x-typescript" src="example-ts.ts"></script>
+    <script type="text/x-tsconfig" src="example-tsconfig.json"></script>
+
+    <script type="text/javascript">
+        Compiler.configure({
+           server: "http://localhost:8080",
+           tsScriptType: "text/x-typescript",
+           tsconfigType: "text/x-tsconfig",
+           outputJsType: "text/javascript",
+           outputOtherType: "text/x-metadata"
+        });
+    </script>
+</head>
+<body>
+<div class="header-container">
+    <img id="spinner" src="spinner.gif" alt="loading spinner"/>
+    <span id="status" class="header">TypeScript Compiling...</span>
+</div>
+
+<script type="text/javascript">
+    Compiler.compile();
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+html {
+    font-family: 'Roboto', sans-serif;
+}
+#spinner {
+    height: 40px;
+    position: relative;
+    top: 7px;
+}
+.header {
+    font-size: 40px;
+}
+.header-container {
+    height: 50px;
+}
+.hidden {
+    display: none;
+}
+.error {
+    color: #970002;
+}
