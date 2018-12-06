@@ -48,6 +48,19 @@ function setStatus(status: string) {
     }
 }
 
+/** Adds an element in the status contianer. */
+function addNote(note: string, error: boolean = false) {
+    let container = document.getElementById("status-container");
+    if(container !== null) {
+        let noteElem = document.createElement("pre");
+        if(error) {
+            noteElem.setAttribute("class", "error")
+        }
+        noteElem.innerText = note;
+        container.appendChild(noteElem);
+    }
+}
+
 /** Hides the status text. */
 function hideStatus() {
     let statusDom = document.getElementById("status");
@@ -86,12 +99,17 @@ class Compiler {
         xhr.setRequestHeader("Content-Type", "application/json");
 
         xhr.onload = () => {
-            let output: TSOutput & TSError = JSON.parse(xhr.responseText);
-            if (output.error) {
-                setError(`A server error occurred: <br/> ${output.reason}`);
+            try {
+                let output: TSOutput & TSError = JSON.parse(xhr.responseText);
+                if (output.error) {
+                    setError(`A server error occurred: <br/> ${output.reason}`);
+                    hideSpinner();
+                }
+                this.showOutput(output as TSOutput)
+            } catch (e) {
+                setError("A server error occurred.");
                 hideSpinner();
             }
-            this.showOutput(output as TSOutput)
         };
 
         xhr.onerror = () => {
@@ -130,15 +148,15 @@ class Compiler {
         let div = document.createElement("div");
         div.setAttribute("style", "color: #FFF; background-color: #000;");
         div.appendChild(inner);
-        let status = document.getElementById("status");
-        if (status !== null) {
-            status.appendChild(div);
+        let container = document.getElementById("status-container");
+        if (container !== null) {
+            container.appendChild(div);
         } else {
             document.body.insertBefore(div, document.body.firstChild);
         }
 
         if (!output.success) {
-            setError("Compilation failed");
+            setError("Compilation failed.");
             hideSpinner();
             return;
         } else {
@@ -201,8 +219,11 @@ class Compiler {
      * read or retrieved as required, the [callback] is invoked.
      */
     private readScripts(callback: (p: TSProgram) => void): void {
-        let scripts = document.querySelectorAll(`script[type=${this.tsScriptType}]`);
-        let config = document.querySelector(`script[type=${this.tsconfigType}]`);
+        let scripts = document.querySelectorAll(`script[type="${this.tsScriptType}"]`);
+        let config = document.querySelector(`script[type="${this.tsconfigType}"]`);
+        if(config === null) {
+            addNote("TypeScript config not found... compilation is very unlikely to succeed.", true)
+        }
         let files: Array<TSFile> = [];
         let scriptNumber = 0;
         let waitingXHRsRef = {n: 0, called: false};
