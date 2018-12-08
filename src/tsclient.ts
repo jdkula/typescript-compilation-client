@@ -222,7 +222,7 @@ class Compiler {
         let scripts = document.querySelectorAll(`script[type="${this.tsScriptType}"]`);
         let config = document.querySelector(`script[type="${this.tsconfigType}"]`);
         if(config === null) {
-            addNote("TypeScript config not found... compilation is very unlikely to succeed.", true)
+            addNote("TypeScript config not found... compilation is very unlikely to succeed.", true);
         }
         let files: Array<TSFile> = [];
         let scriptNumber = 0;

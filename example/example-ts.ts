@@ -1,5 +1,10 @@
 class NumberWrapper {
-    constructor(public x: number) {}
+    constructor(public x: number) {
+    }
 }
+
 let n = new NumberWrapper(1);
-alert(`Typescript worked! NumberWrapper ${n.x}`);
+
+let div: HTMLDivElement = document.createElement("div");
+div.innerText = `Typescript worked! NumberWrapper ${n.x}`;
+document.body.appendChild(div);

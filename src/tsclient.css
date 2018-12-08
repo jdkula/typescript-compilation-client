@@ -9,9 +9,6 @@ html {
 .header {
     font-size: 40px;
 }
-.header-container {
-    height: 50px;
-}
 .hidden {
     display: none;
 }
